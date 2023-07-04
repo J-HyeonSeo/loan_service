@@ -1,0 +1,59 @@
+version: '2'
+services:
+
+  api1:
+    image: api:1.0.0
+    container_name: api1
+    ports:
+      - "8081:8081"
+    networks:
+      - fintech
+    depends_on:
+      - fintech-mysql
+      - fintech-redis
+    restart: always
+
+#  api2:
+#    image: api:1.0.0
+#    container_name: api2
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - fintech
+#    depends_on:
+#      - fintech-mysql
+#      - fintech-redis
+#    restart: always
+
+  nginx:
+    image: nginxcustom:1.0.0
+    container_name: nginx
+    ports:
+      - "8085:8085"
+    networks:
+      - fintech
+
+  fintech-mysql:
+    image: mysql
+    container_name: fintech-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: fintech
+      MYSQL_USER: fintech
+      MYSQL_PASSWORD: fintech
+      MYSQL_DATABASE: fintech
+    ports:
+      - "3306:3306"
+    networks:
+      - fintech
+
+  fintech-redis:
+    image: redis
+    container_name: fintech-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - fintech
+
+networks:
+  fintech:
+    driver: bridge

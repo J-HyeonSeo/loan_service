@@ -1,0 +1,45 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.13' apply false
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE' apply false
+}
+
+group = 'com.jhsfully'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '11'
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+}
+
+subprojects {
+	apply {
+		plugin('java')
+		plugin('org.springframework.boot')
+		plugin('io.spring.dependency-management')
+	}
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
+}
+
+project(":api"){
+	dependencies {
+		implementation(project(":domain"))
+	}
+}
+
+project(":domain"){
+	jar{
+		enabled = true
+	}
+	bootJar{
+		enabled = false
+	}
+}
+

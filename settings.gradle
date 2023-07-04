@@ -1,0 +1,4 @@
+rootProject.name = 'loan'
+include 'domain'
+include 'api'
+
